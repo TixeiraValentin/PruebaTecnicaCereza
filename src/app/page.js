@@ -1,20 +1,20 @@
 'use client'
 import { useGetProducts } from "@/api/api"
 import { useQueryClient } from "@tanstack/react-query"
-import { useState } from "react"
 import { Carousel } from "./Components/Carousel/Carousel"
+import Loading from "./Components/Loading/Loading"
 
 
 export default function Home() {
   const queryClient = useQueryClient()
-  const { data: product, isLoading: isLoadingRandomUser, isError, error } = useGetProducts()
+  const { data: product, isLoading, isError, error } = useGetProducts()
 
 
   const handleInvalidQuery = (e) => {
     queryClient.invalidateQueries(['getProducts'])
   }
 
-  if (isLoadingRandomUser) return <div>Cargando...</div>
+  if (isLoading) return <Loading/>
   if (isError) return <div>Error: {error.message}</div>
 
   console.log({ product })
