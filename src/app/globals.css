@@ -126,7 +126,11 @@ a {
   flex-direction: column;
   width: 80%;
 }
-.containerSectionFirstHome h2 {
+.headerSectionFirstHome {
+  display: flex;
+  justify-content: space-between;
+}
+.headerSectionFirstHome h2 {
   display: flex;
   color: #D9E8FC;
   font-style: italic;
@@ -134,62 +138,8 @@ a {
   padding: 10px 30px;
   border-top-right-radius: 15px;
   border-top-left-radius: 15px;
+  cursor: pointer;
 }
-.containerSectionFirstHome table {
-  background-color: #D9E8FC;
-  width: 100%;
-  table-layout: fixed;
-  border-collapse: collapse;
-}
-.column-id,
-.column-price,
-.column-discount,
-
-.column-stock,
-.column-brand {
-  width: 5%;
-}
-.column-category,
-.column-title,
-.column-image,
-.column-rating {
-  width: 10%;
-}
-.column-description {
-  width: 30%;
-}
-
-.containerSectionFirstHome table thead th {
-  color: #363738;
-  padding: 5px;
-  word-wrap: break-word;
-  border-left: 1px solid #8792A1;
-  border-right: 1px solid #8792A1;
-}
-.containerSectionFirstHome table thead th:first-child {
-  border-left: none;
-}
-
-.containerSectionFirstHome table thead th:last-child {
-  border-right: none;
-}
-.containerSectionFirstHome table tbody td {
-  color: #363738;
-  text-align: center;
-  vertical-align: middle;
-  word-wrap: break-word;
-  padding: 10px 0;
-  border: 1px solid #8792A1;
-  position: relative;
-}
-.containerSectionFirstHome table tbody td:first-child {
-  border-left: none;
-}
-.containerSectionFirstHome table tbody td:last-child {
-  border-right: none;
-}
-
-
 @media (prefers-color-scheme: dark) {
   html {
     color-scheme: dark;
