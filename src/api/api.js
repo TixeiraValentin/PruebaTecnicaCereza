@@ -14,7 +14,7 @@ const getProducts = async () => {
 }
 
 export const useGetProducts = () => {
-    return useQuery(['getProducts'], () => getProducts(), {cacheTime: 100000}) 
+    return useQuery(['getProducts'], () => getProducts()) 
 }
 
 

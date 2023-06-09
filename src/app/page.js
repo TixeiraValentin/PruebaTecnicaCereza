@@ -3,12 +3,17 @@
 import { useState } from "react"
 import TableListado from "./Components/TableListado/TableListado"
 import FormCrearProducto from "./Components/FormCrearProducto/FormCrearProducto"
+import { useQueryClient } from "@tanstack/react-query"
 
 
 export default function Home() {
-
+  //const queryClient = useQueryClient()
   const [showTable, setShowTable] = useState(true)
 
+  const handleInvalidQuery = () => {
+    setShowTable(false)
+    //queryClient.invalidateQueries(['getProducts'])
+  }
   return (
     <>
       <div className="containerHome">
@@ -19,7 +24,7 @@ export default function Home() {
           <section className="containerSectionFirstHome">
             <div className="headerSectionFirstHome">
               <h2 onClick={() => setShowTable(true)}>Listado de Facturas</h2>
-              <h2 onClick={() => setShowTable(false)}>Generar nueva Factura</h2>
+              <h2 onClick={() => handleInvalidQuery()}>Generar nueva Factura</h2>
             </div>
             {showTable ? 
               <TableListado/> : 
