@@ -3,7 +3,6 @@
 import { useState } from "react"
 import TableListado from "./Components/TableListado/TableListado"
 import FormCrearProducto from "./Components/FormCrearProducto/FormCrearProducto"
-import { useQueryClient } from "@tanstack/react-query"
 
 
 export default function Home() {
@@ -27,7 +26,7 @@ export default function Home() {
               <h2 onClick={() => handleInvalidQuery()}>Generar nueva Factura</h2>
             </div>
             {showTable ? 
-              <TableListado/> : 
+              <TableListado /> : 
               <FormCrearProducto/>
             }
           </section>
