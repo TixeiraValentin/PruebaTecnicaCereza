@@ -83,3 +83,21 @@
     background-color: #7FADEB;
     color: white;
 }
+.containerDetailsProduct {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    row-gap: 5px;
+}
+.containerDetailsProduct h2 {
+    color: #363738;
+    font-weight: 600;
+}
+.containerDetailsProduct p {
+    color: #7FADEB;
+    font-weight: 600;
+}
+.formGroup select {
+    outline: none;
+}

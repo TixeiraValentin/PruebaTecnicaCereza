@@ -3,6 +3,7 @@ import "./formCrearProducto.css";
 import { useForm } from "react-hook-form";
 import Loading from "../Loading/Loading";
 import { useEffect, useState } from "react";
+import { Carousel } from "../Carousel/Carousel";
 
 export default function FormCrearProducto() {
   const {
@@ -14,46 +15,11 @@ export default function FormCrearProducto() {
   } = useForm({onChange: true});
 
   const { data: products, isLoading, isError, error } = useGetProducts()
-  
-  const [brands, setBrands] = useState([]);
-  const [categories, setCategories] = useState([]);
-  const [isCreatingNewBrand, setIsCreatingNewBrand] = useState(false);
-  const [isCreatingNewCategory, setIsCreatingNewCategory] = useState(false);
-  const [brandExists, setBrandExists] = useState(false);
-  const [categoryExists, setCategoryExists] = useState(false);
 
-  useEffect(() => {
-    if (products) {
-      const uniqueBrands = [...new Set(products.products.map(item => item.brand))];
-      const uniqueCategories = [...new Set(products.products.map(item => item.category))];
-      setBrands(uniqueBrands);
-      setCategories(uniqueCategories);
-    }
-  }, [products]);
-
-  useEffect(() => {
-    if (isCreatingNewBrand) {
-      setBrandExists(brands.includes(watch("brand")));
-    } else {
-      setBrandExists(false);
-    }
-  }, [watch("brand"), brands, isCreatingNewBrand]);
-
-  useEffect(() => {
-    if (isCreatingNewCategory) {
-      setCategoryExists(categories.includes(watch("category")));
-    } else {
-      setCategoryExists(false);
-    }
-  }, [watch("category"), categories, isCreatingNewCategory]);
-
-  const toggleInputBrand = () => {
-    setIsCreatingNewBrand(!isCreatingNewBrand);
-  };
-
-  const toggleInputCategory = () => {
-    setIsCreatingNewCategory(!isCreatingNewCategory);
-  };
+  const handleProductSelect = (e) => {
+    const product = products.products.find(p => p.title === e.target.value);
+    setSelectedProduct(product);
+  }
 
   const onSubmit = (data) => {
     console.log(data);
@@ -70,24 +36,24 @@ export default function FormCrearProducto() {
     <form className="formCrearProducto" onSubmit={handleSubmit(onSubmit)}>
       <div className="formGroup">
         <div>
-          <label>Titulo</label>
+          <label>Nombre del cliente</label>
           <input
-            {...register("title", { required: true })}
-            placeholder="Titulo"
+            {...register("clientName", { required: true })}
+            placeholder="Nombre del cliente"
             className="form-control"
           />
-          {errors.title && (
+          {errors.clientName && (
             <small className="errorFormCrearProducto">Este campo es requerido.</small>
           )}
         </div>
         <div>
-          <label>Imagen (URL)</label>
+          <label>Fecha</label>
           <input
-            {...register("image", { required: true })}
-            placeholder="Imagen (URL)"
+            {...register("fecha", { required: true })}
+            placeholder="Fecha"
             className="form-control"
           />
-          {errors.image && (
+          {errors.fecha && (
             <small className="errorFormCrearProducto">Este campo es requerido.</small>
           )}
         </div>
@@ -95,146 +61,25 @@ export default function FormCrearProducto() {
 
       <div className="formGroup">
         <div>
-          <label>Precio</label>
+          <label>Total</label>
           <input
-            {...register("price", { required: true })}
-            placeholder="Precio"
+            {...register("total", { required: true })}
+            placeholder="Total"
             type="number"
             className="form-control"
             onWheel={(e) => e.target.blur()}
           />
-          {errors.price && (
-            <small className="errorFormCrearProducto">Este campo es requerido.</small>
-          )}
-        </div>
-        <div>
-          <label>Portentaje de Descuento</label>
-          <input
-            {...register("discountPercentage", { required: true })}
-            placeholder="Portentaje de Descuento"
-            type="number"
-            className="form-control"
-            onWheel={(e) => e.target.blur()}
-          />
-          {errors.discountPercentage && (
+          {errors.total && (
             <small className="errorFormCrearProducto">Este campo es requerido.</small>
           )}
         </div>
       </div>
 
-      <div className="formGroup">
-        <div>
-          <label>Calificación</label>
-          <input
-            {...register("rating", { required: true })}
-            placeholder="Calificación"
-            type="number"
-            step="0.01"
-            min="0"
-            max="5"
-            className="form-control"
-          />
-          {errors.rating && (
-            <small className="errorFormCrearProducto">Este campo es requerido.</small>
-          )}
-        </div>
-        <div>
-          <label>Stock</label>
-          <input
-            {...register("stock", { required: true })}
-            placeholder="Stock"
-            type="number"
-            className="form-control"
-            onWheel={(e) => e.target.blur()}
-          />
-          {errors.stock && (
-            <small className="errorFormCrearProducto">Este campo es requerido.</small>
-          )}
-        </div>
-      </div>
-
-      <div className="formGroup">
-        <div>
-          <label>Marca</label>
-          {isCreatingNewBrand ? (
-          <input
-            {...register("brand", { required: true })}
-            placeholder="Marca"
-            className="form-control"
-          />
-          ) : (
-            <select
-            className="form-control"
-            name="brand"
-            {...register("brand", { required: true })}
-          >
-            <option value="">Selecciona una marca</option>
-            {brands.map((brand) => (
-              <option key={brand} value={brand}>
-                {brand}
-              </option>
-            ))}
-          </select>
-        )}
-        <button type="button" onClick={toggleInputBrand}>
-          {isCreatingNewBrand ? 'Seleccionar marca existente' : 'Crear nueva marca'}
-        </button>
-          {brandExists && <small className="errorFormCrearProducto">Esta marca ya existe.</small>}
-          {errors.brand && (
-            <small className="errorFormCrearProducto">Este campo es requerido.</small>
-          )}
-        </div>
-        <div>
-          <label>Categoría</label>
-          {isCreatingNewCategory ? (
-          <input
-            {...register("category", { required: true })}
-            placeholder="Categoría"
-            className="form-control"
-          />
-          ) : (
-            <select
-            className="form-control"
-            name="category"
-            {...register("category", { required: true })}
-          >
-            <option value="">Selecciona una categoría</option>
-            {categories.map((category) => (
-              <option key={category} value={category}>
-                {category}
-              </option>
-            ))}
-          </select>
-        )}
-        <button type="button" onClick={toggleInputCategory}>
-          {isCreatingNewCategory ? 'Seleccionar categoría existente' : 'Crear nueva categoría'}
-        </button>
-          {categoryExists && <small className="errorFormCrearProducto">Esta categoría ya existe.</small>}
-          {errors.category && (
-            <small className="errorFormCrearProducto">Este campo es requerido.</small>
-          )}
-        </div>
-      </div>
-
-      <div className="formGroupLast">
-        <label>Descripción</label>
-        <textarea
-          {...register("description", { required: true, maxLength: 150 })}
-          placeholder="Máximo 150 caracteres"
-          className="form-control"
-        />
-        {errors.description && (
-          <small className="errorFormCrearProducto">
-            Este campo es requerido y no debe exceder los 150 caracteres.
-          </small>
-        )}
-      </div>
       <div className="containerButtonForm">
         <button type="button" onClick={() => reset()} >Cancelar</button>
-        <button disabled={brandExists || categoryExists} type="submit">
-          Guardar
-        </button>
+        <button type="submit">Guardar</button>
       </div>
+
     </form>
   );
 }

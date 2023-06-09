@@ -22,7 +22,7 @@ export default function Home() {
         <main className="containerMainHome">
           <section className="containerSectionFirstHome">
             <div className="headerSectionFirstHome">
-              <h2 onClick={() => setShowTable(true)}>Listado de Facturas</h2>
+              <h2 onClick={() => setShowTable(true)}>Listado de Productos</h2>
               <h2 onClick={() => handleInvalidQuery()}>Generar nueva Factura</h2>
             </div>
             {showTable ? 

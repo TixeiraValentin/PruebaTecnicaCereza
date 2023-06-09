@@ -12,7 +12,8 @@
   .column-price,
   .column-discount,
   .column-stock,
-  .column-brand {
+  .column-brand,
+  .column-add-to-invoice {
     width: 5%;
   }
   
@@ -60,3 +61,12 @@
   .containerSectionFirstHome table tbody td:last-child {
     border-right: none;
   }
+  .containerSectionFirstHome table tbody td button {
+    color: #363738;
+    text-align: center;
+    vertical-align: middle;
+    padding: 10px;
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+}

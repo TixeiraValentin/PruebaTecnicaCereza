@@ -1,5 +1,5 @@
 import { useGetProducts } from "@/api/api";
-import React from "react";
+import React, { useState } from "react";
 import Loading from "../Loading/Loading";
 import { Carousel } from "../Carousel/Carousel";
 import "./tableListado.css"
@@ -7,10 +7,20 @@ import "./tableListado.css"
 export default function TableListado() {
 
     const { data: product, isLoading, isError, error } = useGetProducts()
-  
+
+    const [addedToInvoice, setAddedToInvoice] = useState([]);
+    
     if (isLoading) return <Loading/>
     if (isError) return <div>Error: {error.message}</div>
 
+    const addToInvoice = (productId) => {
+
+      if (!addedToInvoice.includes(productId)) {
+        setAddedToInvoice(prevState => [...prevState, productId]);
+      }
+  };
+
+  console.log(addedToInvoice)
   return (
     <table>
       <colgroup>
@@ -24,6 +34,7 @@ export default function TableListado() {
         <col className="column-brand" />
         <col className="column-category" />
         <col className="column-image" />
+        <col className="column-add-to-invoice" />
       </colgroup>
       <thead>
         <tr>
@@ -37,6 +48,7 @@ export default function TableListado() {
           <th>Marca</th>
           <th>Categoría</th>
           <th>Imagen</th>
+          <th>Agregar a Factura</th>
         </tr>
       </thead>
       <tbody>
@@ -55,6 +67,10 @@ export default function TableListado() {
               <td>
                 <Carousel images={p.images} />
               </td>
+              <td>
+                <button className="invoice-button" onClick={() => addToInvoice(p.id)}>
+                    {addedToInvoice.includes(p.id) ? "Añadido" : "+"}
+                </button></td>
             </tr>
           ))}
       </tbody>
