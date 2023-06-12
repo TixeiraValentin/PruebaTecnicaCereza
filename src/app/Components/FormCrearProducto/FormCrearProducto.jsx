@@ -1,39 +1,68 @@
-import { useGetProducts } from "@/api/api";
+import { useGetAddedToInvoice, useGetProducts } from "@/api/api";
 import "./formCrearProducto.css";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import Loading from "../Loading/Loading";
 import { useEffect, useState } from "react";
-import { Carousel } from "../Carousel/Carousel";
+import es from "date-fns/locale/es";
+import DatePicker, { registerLocale } from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 export default function FormCrearProducto() {
   const {
     register,
     handleSubmit,
     watch,
+    control,
     reset,
     formState: { errors },
-  } = useForm({onChange: true});
+  } = useForm({ onChange: true });
 
-  const { data: products, isLoading, isError, error } = useGetProducts()
+  const { data: products, isLoading, isError, error } = useGetProducts();
+  const { data: addedToInvoice } = useGetAddedToInvoice();
+  const [selectedProducts, setSelectedProducts] = useState([]);
 
-  const handleProductSelect = (e) => {
-    const product = products.products.find(p => p.title === e.target.value);
-    setSelectedProduct(product);
-  }
+  useEffect(() => {
+    if (products && addedToInvoice) {
+      const matchedProducts = products.products.filter((product) =>
+        addedToInvoice.includes(product.id)
+      );
+      setSelectedProducts(matchedProducts);
+    }
+  }, [products, addedToInvoice]);
 
   const onSubmit = (data) => {
     console.log(data);
     const existingFacturas = JSON.parse(localStorage.getItem("facturas")) || [];
     const newFacturas = [...existingFacturas, data];
     localStorage.setItem("facturas", JSON.stringify(newFacturas));
-    reset()
+    reset();
   };
 
-  if (isLoading) return <Loading/>
-  if (isError) return <div>Error: {error.message}</div>
+  if (isLoading) return <Loading />;
+  if (isError) return <div>Error: {error.message}</div>;
+
+  registerLocale("es", es);
 
   return (
     <form className="formCrearProducto" onSubmit={handleSubmit(onSubmit)}>
+      <div className="containerSelectedProducts">
+        <label>Productos</label>
+        <div className="containerCardsSelectProducts">
+          {selectedProducts &&
+            selectedProducts.map((product, index) => (
+              <div className="cardSelectProducts" key={index}>
+                <div>
+                  <img src={product.thumbnail} alt={product.title} />
+                </div>
+                <div>
+                  <h3>{product.title}</h3>
+                  <p>Precio: {product.price}</p>
+                </div>
+              </div>
+            ))}
+        </div>
+      </div>
+
       <div className="formGroup">
         <div>
           <label>Nombre del cliente</label>
@@ -43,43 +72,53 @@ export default function FormCrearProducto() {
             className="form-control"
           />
           {errors.clientName && (
-            <small className="errorFormCrearProducto">Este campo es requerido.</small>
-          )}
-        </div>
-        <div>
-          <label>Fecha</label>
-          <input
-            {...register("fecha", { required: true })}
-            placeholder="Fecha"
-            className="form-control"
-          />
-          {errors.fecha && (
-            <small className="errorFormCrearProducto">Este campo es requerido.</small>
+            <small className="errorFormCrearProducto">
+              Este campo es requerido.
+            </small>
           )}
         </div>
       </div>
 
-      <div className="formGroup">
-        <div>
-          <label>Total</label>
-          <input
-            {...register("total", { required: true })}
-            placeholder="Total"
-            type="number"
-            className="form-control"
-            onWheel={(e) => e.target.blur()}
+      <div className="containerFechaCreateFactura">
+          <label>Fecha</label>
+          <Controller
+            name="fecha"
+            control={control}
+            defaultValue={new Date()}
+            rules={{ required: true }}
+            render={({ field }) => (
+              <DatePicker
+                selected={field.value}
+                onChange={(date) => field.onChange(date)}
+                dateFormat="dd/MM/yyyy"
+                locale="es"
+              />
+            )}
           />
-          {errors.total && (
-            <small className="errorFormCrearProducto">Este campo es requerido.</small>
+
+          {errors.fecha && (
+            <small className="errorFormCrearProducto">
+              Este campo es requerido.
+            </small>
+          )}
+        </div>
+
+      <div className="totalFactura">
+        <label>Total</label>
+        <div>
+          {selectedProducts.reduce(
+            (total, product) => total + product.price,
+            0
           )}
         </div>
       </div>
 
       <div className="containerButtonForm">
-        <button type="button" onClick={() => reset()} >Cancelar</button>
+        <button type="button" onClick={() => reset()}>
+          Cancelar
+        </button>
         <button type="submit">Guardar</button>
       </div>
-
     </form>
   );
 }

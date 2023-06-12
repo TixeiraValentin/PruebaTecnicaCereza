@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query"
+import { useQuery, useQueryClient } from "@tanstack/react-query"
 
 const getProducts = async () => {
 
@@ -16,5 +16,21 @@ const getProducts = async () => {
 export const useGetProducts = () => {
     return useQuery(['getProducts'], () => getProducts()) 
 }
+
+// export const useGetAddedToInvoice = () => {
+//     return useQuery(['getAddedToInvoice'], () => []);
+// }
+
+
+export const useGetAddedToInvoice = () => {
+    const queryClient = useQueryClient();
+    if (!queryClient.getQueryData(['getAddedToInvoice'])) {
+      queryClient.setQueryData(['getAddedToInvoice'], []);
+    }
+    return useQuery(['getAddedToInvoice']);
+}
+
+
+  
 
 

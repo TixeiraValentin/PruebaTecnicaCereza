@@ -101,3 +101,70 @@
 .formGroup select {
     outline: none;
 }
+.containerSelectedProducts {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    row-gap: 20px;
+}
+.containerSelectedProducts label {
+    color: #363738;
+    font-weight: 600;
+    font-size: 20px;
+}
+.containerCardsSelectProducts {
+    display: flex;
+    overflow-x: auto;
+    width: 100%;
+    justify-content: flex-start;
+    gap: 20px;
+    padding: 10px;
+    scroll-snap-type: x mandatory;
+}
+.cardSelectProducts {
+    display: flex;
+    column-gap: 10px;
+    flex: 0 0 auto;
+    scroll-snap-align: start;
+}
+.cardSelectProducts div:first-child {
+    width: 100px;
+    height: 100px;
+    overflow: hidden;
+}
+.cardSelectProducts div:first-child img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+.cardSelectProducts div:last-child {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    row-gap: 5px;
+    color: #1D64C2;
+}
+.totalFactura {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.totalFactura label {
+    color: #363738;
+    font-weight: 600;
+    font-size: 20px;
+}
+.totalFactura div {
+    color: #1D64C2;
+    font-size: 20px;
+}
+.containerFechaCreateFactura {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    row-gap: 5px;
+}

@@ -1,30 +1,28 @@
-import { useGetProducts } from "@/api/api";
+import { useGetAddedToInvoice, useGetProducts } from "@/api/api";
 import React, { useState } from "react";
 import Loading from "../Loading/Loading";
 import { Carousel } from "../Carousel/Carousel";
 import "./tableListado.css"
+import { useQueryClient } from "@tanstack/react-query";
 
 export default function TableListado() {
-
+    const queryClient = useQueryClient();
     const { data: product, isLoading, isError, error } = useGetProducts()
+    const { data: addedToInvoice } = useGetAddedToInvoice();
 
-    const [addedToInvoice, setAddedToInvoice] = useState([]);
     
     if (isLoading) return <Loading/>
     if (isError) return <div>Error: {error.message}</div>
 
     const addToInvoice = (productId) => {
-
       if (!addedToInvoice.includes(productId)) {
-        setAddedToInvoice(prevState => [...prevState, productId]);
+          queryClient.setQueryData(['getAddedToInvoice'], (oldData = []) => [...oldData, productId]);
       }
   };
-
-  console.log(addedToInvoice)
+  
   return (
     <table>
       <colgroup>
-        <col className="column-id" />
         <col className="column-title" />
         <col className="column-description" />
         <col className="column-price" />
@@ -38,7 +36,6 @@ export default function TableListado() {
       </colgroup>
       <thead>
         <tr>
-          <th>ID</th>
           <th>Título</th>
           <th>Descripción</th>
           <th>Precio</th>
@@ -55,7 +52,6 @@ export default function TableListado() {
         {product &&
           product.products.map((p) => (
             <tr key={p.id}>
-              <td>{p.id}</td>
               <td>{p.title}</td>
               <td className="description">{p.description}</td>
               <td>{p.price}</td>
@@ -70,7 +66,8 @@ export default function TableListado() {
               <td>
                 <button className="invoice-button" onClick={() => addToInvoice(p.id)}>
                     {addedToInvoice.includes(p.id) ? "Añadido" : "+"}
-                </button></td>
+                </button>
+              </td>
             </tr>
           ))}
       </tbody>
