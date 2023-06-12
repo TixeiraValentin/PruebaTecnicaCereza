@@ -1,17 +1,19 @@
-import { useGetAddedToInvoice, useGetProducts } from "@/api/api";
-import "./formCrearProducto.css";
+"use client"
+
+import { useGetAddedToInvoice, useGetProducts, useResetAddedToInvoice } from "@/api/api";
+import "./formCrearFactura.css";
 import { Controller, useForm } from "react-hook-form";
 import Loading from "../Loading/Loading";
 import { useEffect, useState } from "react";
 import es from "date-fns/locale/es";
 import DatePicker, { registerLocale } from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { format } from 'date-fns';
 
-export default function FormCrearProducto() {
+export default function FormCrearFactura() {
   const {
     register,
     handleSubmit,
-    watch,
     control,
     reset,
     formState: { errors },
@@ -20,6 +22,7 @@ export default function FormCrearProducto() {
   const { data: products, isLoading, isError, error } = useGetProducts();
   const { data: addedToInvoice } = useGetAddedToInvoice();
   const [selectedProducts, setSelectedProducts] = useState([]);
+  const resetInvoice = useResetAddedToInvoice();
 
   useEffect(() => {
     if (products && addedToInvoice) {
@@ -30,13 +33,32 @@ export default function FormCrearProducto() {
     }
   }, [products, addedToInvoice]);
 
+  const cancelarFactura = () => {
+    reset()
+    resetInvoice.mutate()
+  }
+
   const onSubmit = (data) => {
-    console.log(data);
     const existingFacturas = JSON.parse(localStorage.getItem("facturas")) || [];
-    const newFacturas = [...existingFacturas, data];
+
+    const total = selectedProducts.reduce(
+      (total, product) => total + product.price,
+      0
+    );
+
+    const formattedData = {
+      ...data,
+      fecha: format(data.fecha, 'dd/MM/yyyy'),
+      total,
+      selectedProducts
+    };
+
+    const newFacturas = [...existingFacturas, formattedData];
     localStorage.setItem("facturas", JSON.stringify(newFacturas));
     reset();
+    resetInvoice.mutate()
   };
+
 
   if (isLoading) return <Loading />;
   if (isError) return <div>Error: {error.message}</div>;
@@ -56,65 +78,63 @@ export default function FormCrearProducto() {
                 </div>
                 <div>
                   <h3>{product.title}</h3>
-                  <p>Precio: {product.price}</p>
+                  <p>Precio: {product.price} $</p>
                 </div>
               </div>
             ))}
         </div>
       </div>
-
-      <div className="formGroup">
-        <div>
-          <label>Nombre del cliente</label>
-          <input
-            {...register("clientName", { required: true })}
-            placeholder="Nombre del cliente"
-            className="form-control"
-          />
-          {errors.clientName && (
-            <small className="errorFormCrearProducto">
-              Este campo es requerido.
-            </small>
-          )}
-        </div>
-      </div>
-
-      <div className="containerFechaCreateFactura">
-          <label>Fecha</label>
-          <Controller
-            name="fecha"
-            control={control}
-            defaultValue={new Date()}
-            rules={{ required: true }}
-            render={({ field }) => (
-              <DatePicker
-                selected={field.value}
-                onChange={(date) => field.onChange(date)}
-                dateFormat="dd/MM/yyyy"
-                locale="es"
-              />
+      <div className="containerAddFactura">
+        <div className="formGroup">
+            <label>Nombre del cliente</label>
+            <input
+              {...register("clientName", { required: true })}
+              placeholder="Nombre del cliente"
+              className="form-control"
+            />
+            {errors.clientName && (
+              <small className="errorFormCrearProducto">
+                Este campo es requerido.
+              </small>
             )}
-          />
-
-          {errors.fecha && (
-            <small className="errorFormCrearProducto">
-              Este campo es requerido.
-            </small>
-          )}
         </div>
-
+        <div className="formGroup">
+            <label>Fecha</label>
+            <div>
+              <Controller
+                name="fecha"
+                control={control}
+                defaultValue={new Date()}
+                rules={{ required: true }}
+                render={({ field }) => (
+                  <DatePicker
+                    selected={field.value}
+                    onChange={(date) => field.onChange(date)}
+                    dateFormat="dd/MM/yyyy"
+                    locale="es"
+                  />
+                )}
+              />
+            </div>
+            {errors.fecha && (
+              <small className="errorFormCrearProducto">
+                Este campo es requerido.
+              </small>
+            )}
+          </div>
+        </div>
       <div className="totalFactura">
         <label>Total</label>
         <div>
           {selectedProducts.reduce(
             (total, product) => total + product.price,
             0
-          )}
+          )} $
         </div>
       </div>
 
       <div className="containerButtonForm">
-        <button type="button" onClick={() => reset()}>
+        <button type="button" onClick={() => cancelarFactura()}>
           Cancelar
         </button>
         <button type="submit">Guardar</button>

@@ -1,0 +1,43 @@
+.containerNav {
+    display: flex;
+    flex-direction: column;
+}
+.containerNav header {
+    display: flex;
+    justify-content: center;
+    height: 150px;
+    align-items: center;
+}
+.containerNav header h1 {
+    color: #7FADEB;
+}
+.containerNav ul {
+    background-color: #363738;
+    border-top-right-radius: 15px;
+    border-top-left-radius: 15px;
+    color: #D9E8FC;
+    padding: 10px 30px;
+    font-style: italic;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    width: 80%;
+    margin-inline: auto;
+}
+.containerNav ul li {
+    display: flex;
+}
+.headerSectionFirstHome {
+    display: flex;
+    justify-content: space-between;
+}
+.headerSectionFirstHome h2 {
+    display: flex;
+    color: #D9E8FC;
+    font-style: italic;
+    background-color: #363738;
+    padding: 10px 30px;
+    border-top-right-radius: 15px;
+    border-top-left-radius: 15px;
+    cursor: pointer;
+}

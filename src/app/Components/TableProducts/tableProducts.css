@@ -1,11 +1,12 @@
-.containerSectionFirstHome table {
+.containerListProducts {
     background-color: #D9E8FC;
-    width: 100%;
+    width: 80%;
     table-layout: fixed;
     border-collapse: collapse;
     max-height: 70vh;
     overflow-y: auto;
     display: block;
+    margin-inline: auto;
   }
   
   .column-price,
@@ -27,7 +28,7 @@
     width: 30%;
   }
   
-  .containerSectionFirstHome table thead th {
+  .containerListProducts thead th {
     color: #363738;
     padding: 5px;
     word-wrap: break-word;
@@ -35,15 +36,15 @@
     border-right: 1px solid #8792A1;
   }
   
-  .containerSectionFirstHome table thead th:first-child {
+  .containerListProducts thead th:first-child {
     border-left: none;
   }
   
-  .containerSectionFirstHome table thead th:last-child {
+  .containerListProducts thead th:last-child {
     border-right: none;
   }
   
-  .containerSectionFirstHome table tbody td {
+  .containerListProducts tbody td {
     color: #363738;
     text-align: center;
     vertical-align: middle;
@@ -53,14 +54,14 @@
     position: relative;
   }
   
-  .containerSectionFirstHome table tbody td:first-child {
+  .containerListProducts tbody td:first-child {
     border-left: none;
   }
   
-  .containerSectionFirstHome table tbody td:last-child {
+  .containerListProducts tbody td:last-child {
     border-right: none;
   }
-  .containerSectionFirstHome table tbody td button {
+  .containerListProducts tbody td button {
     color: #363738;
     text-align: center;
     vertical-align: middle;

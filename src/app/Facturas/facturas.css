@@ -1,0 +1,26 @@
+.containerFacturas {
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+    margin-inline: auto;
+    background-color: #D9E8FC;
+    row-gap: 30px;
+}
+.containerFacturas h1 {
+    text-align: center;
+    margin: 0;
+    padding: 0;
+    font-weight: 400;
+    color: #1D64C2;
+}
+.containerFacturaAndProduct {
+    display: flex;
+    justify-content: space-between;
+}
+.factura {
+    display: flex;
+    flex-direction: column;
+    row-gap: 5px;
+    color: #363738;
+    flex: 1;
+}

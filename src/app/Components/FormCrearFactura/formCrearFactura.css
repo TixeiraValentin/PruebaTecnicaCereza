@@ -1,40 +1,22 @@
 .formCrearProducto {
     background-color: #D9E8FC;
+    width: 80%;
+    margin-inline: auto;
     height: 70vh;
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
 }
-.formGroup {
-    margin-bottom: 10px;
-    display: flex;
-    justify-content: center;
-    column-gap: 100px;
-}
-.formGroup div {
-    width: 30%;
+.formGroup {    
     display: flex;
     flex-direction: column;
-    row-gap: 5px;
+    justify-content: flex-start;
+    align-items: center;
+    row-gap: 15px;
 }
 .formGroup label {
     color: #363738;
     font-weight: 600;
-}
-.formGroupLast {
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    width: 30%;
-    margin-inline: auto;
-}
-.formGroupLast label {
-    color: #363738;
-    font-weight: 600;
-}
-.formGroupLast textarea {
-    height: 100px;
-    resize: none;
 }
 .form-control {
     display: block;
@@ -162,9 +144,7 @@
     color: #1D64C2;
     font-size: 20px;
 }
-.containerFechaCreateFactura {
+.containerAddFactura {
     display: flex;
-    justify-content: center;
-    align-items: center;
-    row-gap: 5px;
+    justify-content: space-evenly;
 }

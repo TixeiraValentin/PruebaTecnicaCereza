@@ -100,46 +100,6 @@ a {
   text-decoration: none;
 }
 
-.containerHome {
-  display: flex;
-  flex-direction: column;
-}
-.containerHome header {
-  display: flex;
-  justify-content: center;
-  height: 150px;
-  align-items: center;
-}
-.containerHome header h1 {
-  color: #7FADEB;
-}
-.containerMainHome {
-  display: flex;
-  flex-direction: column;
-  row-gap: 100px;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-}
-.containerSectionFirstHome {
-  display: flex;
-  flex-direction: column;
-  width: 80%;
-}
-.headerSectionFirstHome {
-  display: flex;
-  justify-content: space-between;
-}
-.headerSectionFirstHome h2 {
-  display: flex;
-  color: #D9E8FC;
-  font-style: italic;
-  background-color: #363738;
-  padding: 10px 30px;
-  border-top-right-radius: 15px;
-  border-top-left-radius: 15px;
-  cursor: pointer;
-}
 @media (prefers-color-scheme: dark) {
   html {
     color-scheme: dark;

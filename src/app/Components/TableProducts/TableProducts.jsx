@@ -1,27 +1,25 @@
 import { useGetAddedToInvoice, useGetProducts } from "@/api/api";
-import React, { useState } from "react";
 import Loading from "../Loading/Loading";
 import { Carousel } from "../Carousel/Carousel";
-import "./tableListado.css"
+import "./tableProducts.css"
 import { useQueryClient } from "@tanstack/react-query";
 
-export default function TableListado() {
+export default function TableProducts() {
     const queryClient = useQueryClient();
     const { data: product, isLoading, isError, error } = useGetProducts()
     const { data: addedToInvoice } = useGetAddedToInvoice();
-
-    
-    if (isLoading) return <Loading/>
-    if (isError) return <div>Error: {error.message}</div>
 
     const addToInvoice = (productId) => {
       if (!addedToInvoice.includes(productId)) {
           queryClient.setQueryData(['getAddedToInvoice'], (oldData = []) => [...oldData, productId]);
       }
-  };
-  
+    }
+        
+    if (isLoading) return <Loading/>
+    if (isError) return <div>Error: {error.message}</div>
+
   return (
-    <table>
+    <table className="containerListProducts">
       <colgroup>
         <col className="column-title" />
         <col className="column-description" />
